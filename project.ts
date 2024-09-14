@@ -19,7 +19,7 @@ const project: EthereumProject = {
   version: "0.0.1",
   name: "Safe Launch",
   description:
-    "This project can be use as a starting point for developing your new Asset Chain Testnet SubQuery project",
+    "SafeLaunch ensures every token is fair-launched with no presale and no team allocation",
   runner: {
     node: {
       name: "@subql/node-ethereum",
@@ -99,7 +99,7 @@ const project: EthereumProject = {
       },
     },
   ],
-  repository: "https://github.com/subquery/ethereum-subql-starter",
+  repository: "https://github.com/Safe-Launch-evm/safelaunch_indexer",
 };
 
 // Must set default to the project instance
