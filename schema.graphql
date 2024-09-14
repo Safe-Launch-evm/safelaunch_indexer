@@ -9,3 +9,13 @@ type TokenInfo @entity {
   name: String!
   symbol: String!
 }
+
+type TokenSwap @entity {
+  id: ID!
+  token: String!
+  txnType: String!
+  amount: BigInt!
+  fee: Int!
+  timestamp: BigInt!
+  user: String!
+}

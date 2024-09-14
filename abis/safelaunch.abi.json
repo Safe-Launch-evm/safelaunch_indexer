@@ -1,21 +1,68 @@
 [
   {
+    "inputs": [
+      {
+        "internalType": "contract TokenFactory",
+        "name": "_tokenFactory",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_treasuryAddress",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
         "indexed": true,
         "internalType": "address",
-        "name": "previousOwner",
+        "name": "token",
         "type": "address"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "poolFee",
+        "type": "uint256"
+      },
+      {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
-        "name": "newOwner",
+        "name": "user",
         "type": "address"
       }
     ],
-    "name": "OwnershipTransferred",
+    "name": "AddLiquidity",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      }
+    ],
+    "name": "NftRecieved",
     "type": "event"
   },
   {
@@ -24,47 +71,54 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "tokenAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "deployer",
+        "name": "token",
         "type": "address"
       },
       {
         "indexed": false,
         "internalType": "string",
-        "name": "tokenname",
+        "name": "txnType",
         "type": "string"
       },
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "tokensymbol",
-        "type": "string"
-      }
-    ],
-    "name": "TokenCreated",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "tokenAddress",
-        "type": "address"
-      },
-      {
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint24",
+        "name": "fee",
+        "type": "uint24"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
       }
     ],
-    "name": "burnTokens",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "TokenSwapped",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "WRWA",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -78,32 +132,29 @@
         "internalType": "string",
         "name": "symbol",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountNativeToken",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "addLiquidity",
+        "type": "bool"
       }
     ],
     "name": "createToken",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "getTokens",
+    "name": "nonfungiblePositionManager",
     "outputs": [
       {
-        "internalType": "address[]",
-        "name": "",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address",
+        "internalType": "contract INonfungiblePositionManager",
         "name": "",
         "type": "address"
       }
@@ -112,21 +163,96 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "renounceOwnership",
-    "outputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "operator",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "name": "onERC721Received",
+    "outputs": [
+      {
+        "internalType": "bytes4",
+        "name": "",
+        "type": "bytes4"
+      }
+    ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "quoterV2",
+    "outputs": [
+      {
+        "internalType": "contract IQuoterV2",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "tokenIn",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenOut",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
-        "name": "",
+        "name": "amountIn",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amountOutMinimum",
         "type": "uint256"
       }
     ],
-    "name": "tokens",
+    "name": "swap",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "swapRouter",
+    "outputs": [
+      {
+        "internalType": "contract ISwapRouter",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "treasuryAddress",
     "outputs": [
       {
         "internalType": "address",
@@ -138,16 +264,16 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "uniswapV3Factory",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "newOwner",
+        "internalType": "contract IUniswapV3Factory",
+        "name": "",
         "type": "address"
       }
     ],
-    "name": "transferOwnership",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   }
 ]

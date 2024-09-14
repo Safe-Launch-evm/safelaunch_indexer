@@ -17,7 +17,7 @@ dotenv.config({ path: dotenvPath });
 const project: EthereumProject = {
   specVersion: "1.0.0",
   version: "0.0.1",
-  name: "asset-chain-testnet-starter",
+  name: "Safe Launch",
   description:
     "This project can be use as a starting point for developing your new Asset Chain Testnet SubQuery project",
   runner: {
@@ -52,12 +52,14 @@ const project: EthereumProject = {
   dataSources: [
     {
       kind: EthereumDatasourceKind.Runtime,
-      startBlock: 2330,
+      startBlock: 98568,
       options: {
-        abi: "safelaunch",
-        address: "0x5326f78247687E1f32F7B655Eca0DF872790035b",
+        abi: "tokenfactory",
+        address: "0x70E3ab94CAC2316878f348d2bA0f669067925bD6",
       },
-      assets: new Map([["safelaunch", { file: "./abis/safelaunch.abi.json" }]]),
+      assets: new Map([
+        ["tokenfactory", { file: "./abis/tokenfactory.abi.json" }],
+      ]),
       mapping: {
         file: "./dist/index.js",
         handlers: [
@@ -66,7 +68,30 @@ const project: EthereumProject = {
             handler: "handleTokenCreationLog",
             filter: {
               topics: [
-                "TokenCreated(address indexed tokenAddress, address indexed deployer, string tokenname, string tokensymbol)",
+                "TokenCreated(address indexed tokenAddress, address indexed deployer, string tokenName, string tokenSymbol)",
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: EthereumDatasourceKind.Runtime,
+      startBlock: 98570,
+      options: {
+        abi: "safelaunch",
+        address: "0x2B7C1342Cc64add10B2a79C8f9767d2667DE64B2",
+      },
+      assets: new Map([["safelaunch", { file: "./abis/safelaunch.abi.json" }]]),
+      mapping: {
+        file: "./dist/index.js",
+        handlers: [
+          {
+            kind: EthereumHandlerKind.Event,
+            handler: "handleTokenSwapLog",
+            filter: {
+              topics: [
+                "TokenSwapped(address indexed token, string txnType, uint256 amount, uint24 fee, uint256 timestamp, address user)",
               ],
             },
           },
